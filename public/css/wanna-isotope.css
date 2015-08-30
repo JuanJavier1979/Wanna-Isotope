@@ -1,0 +1,78 @@
+.isotope {
+  margin: 0;
+  list-style-type: none;
+} 
+
+.isotope-item {
+  z-index: 2;
+  width: 25%;
+  padding: 1px;
+}
+@media only screen and (max-width: 768px) { 
+  .isotope-item {
+    width: 33.33%;
+  }
+}
+@media only screen and (max-width: 490px) { 
+  .isotope-item {
+    width: 50%;
+  }
+}
+
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1;
+}
+ 
+.isotope.no-transition,
+.isotope.no-transition .isotope-item,
+.isotope .isotope-item.no-transition {
+  -webkit-transition-duration: 0s;
+     -moz-transition-duration: 0s;
+      -ms-transition-duration: 0s;
+       -o-transition-duration: 0s;
+          transition-duration: 0s;
+}
+.isotope-item img {
+  width:100%;
+  -webkit-transition: all ease-in-out 0.15s;
+     -moz-transition: all ease-in-out 0.15s;
+          transition: all ease-in-out 0.15s; 
+}
+.isotope-item img:hover {cursor:pointer;opacity:.5;}
+
+.content-projects {
+  list-style-type: none;
+  margin-left:0;
+}
+
+ul.filters {
+  list-style-type:none;
+  margin: 0 0 .5em;
+}
+ul.filters:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+ul.filters li {
+  float:left; 
+  margin-right:4px;
+}
+
+ul.filters a {
+  border: 1px solid #cacaca;
+  padding: 5px 10px;
+  background: #fff;
+  color: #cacaca;
+  text-transform: uppercase;
+  margin-bottom: 0;
+  -webkit-transition: all ease-in-out 0.15s;
+     -moz-transition: all ease-in-out 0.15s;
+        transition: all ease-in-out 0.15s; 
+}
+ul.filters a:hover,
+ul.filters a.active {
+  border-color: #000;
+  color: #000;
+}
