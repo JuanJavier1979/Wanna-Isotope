@@ -15,24 +15,41 @@ A plugin to easily build Isotope/Masonry layouts with any content (posts, pages 
 A plugin to easily build Isotope/Masonry layouts with any content (posts, pages or custom post types). Responsive grids, filterable content.
 
 = Shortode parameters =
-* type example type="portfolio" default = post
+**type** 
 
-Display content based on posts, pages or custom post types.
+* example: *type="portfolio"* 
+* default: *post*
+* Display content based on posts, pages or custom post types.
 
-* items example items="12" default = 4
-Number of items to show.
+**items**
+ 
+* example: *items="12"*
+* default: *4*
+* Number of items to show.
 
-* tax example tax="category" default = none
-Show a filter based on taxonomy parameter.
+**tax** 
 
-* orderby example orderby="slug" default = menu_order
-Sort retrieved posts by parameter.
+* example: *tax="category"*
+* default: *none*
+* Show a filter based on taxonomy parameter.
 
-* order example order="DESC" default = ASC
-Designates the ascending or descending order of the 'orderby' parameter.
+**order_by**
+ 
+* example: *order_by="slug"*
+* default: *menu_order*
+* Sort retrieved posts by parameter.
 
-* id example id="my_custom_grid" default = none
-set a custom id so you can style or target better.
+**order**
+
+* example: *order="DESC"*
+* default: *ASC*
+* Designates the ascending or descending order of the 'orderby' parameter.
+
+**id**
+
+* example: *id="my_custom_grid"*
+* default: *none*
+* set a custom id so you can style or target better.
 
 == Installation ==
 
