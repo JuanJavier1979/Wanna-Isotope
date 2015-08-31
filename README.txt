@@ -3,7 +3,8 @@ Contributors: jjmrestituto, wannathemes
 Donate link: http://www.wannathemes.com/donations
 Tags: isotope, masonry, filter, grid, layout, shortcode
 Requires at least: 3.0.1
-Tested up to: 3.4
+Tested up to: 4.3
+Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,17 +15,23 @@ A plugin to easily build Isotope/Masonry layouts with any content (posts, pages 
 A plugin to easily build Isotope/Masonry layouts with any content (posts, pages or custom post types). Responsive grids, filterable content.
 
 = Shortode parameters =
-*type example type="portfolio" default = post
+* type example type="portfolio" default = post
+
 Display content based on posts, pages or custom post types.
-*items example items="12" default = 4
+
+* items example items="12" default = 4
 Number of items to show.
-*tax example tax="category" default = none
+
+* tax example tax="category" default = none
 Show a filter based on taxonomy parameter.
-*orderby example orderby="slug" default = menu_order
+
+* orderby example orderby="slug" default = menu_order
 Sort retrieved posts by parameter.
-*order example order="DESC" default = ASC
+
+* order example order="DESC" default = ASC
 Designates the ascending or descending order of the 'orderby' parameter.
-*id example id="my_custom_grid" default = none
+
+* id example id="my_custom_grid" default = none
 set a custom id so you can style or target better.
 
 == Installation ==
