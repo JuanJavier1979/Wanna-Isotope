@@ -1,14 +1,14 @@
 <?php
 /**
  * @link              http://www.wannathemes.com
- * @since             1.0.1
+ * @since             1.0.0
  * @package           Wanna_Isotope
  *
  * @wordpress-plugin
  * Plugin Name:       Wanna Isotope
  * Plugin URI:        http://wordpress.org/extend/plugins/wanna-isotope/
  * Description:       A plugin to easily build Isotope Layouts with any content.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            jjmrestituto, wannathemes
  * Author URI:        http://www.wannathemes.com
  * License:           GPL-2.0+
