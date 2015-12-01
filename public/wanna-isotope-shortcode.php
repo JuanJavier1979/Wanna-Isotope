@@ -62,7 +62,7 @@ class Wanna_Isotope_Shortcode {
         }
 
         if( null == $id ) {
-	        $id = 'wanna-'.md5( date(jnYgis) );
+	        $id = 'wanna-'.md5( date( 'jnYgis' ) );
 	        $id_output = 'id="' . $id . '"';
 	    }
 
@@ -106,7 +106,6 @@ class Wanna_Isotope_Shortcode {
                 }
                 $isotope_output .= '<li class="isotope-item ' . $term_class . 'all">' . $image . '</li>';
                 $image = '';
-                $num++;
             endwhile;
 
             $isotope_output .= '</ul>';

@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: jjmrestituto, wannathemes
-Donate link: http://www.wannathemes.com/donations
+Donate link: https://www.paypal.me/wannathemes/5
 Tags: isotope, masonry, filter, grid, layout, shortcode
 Requires at least: 3.0.1
 Tested up to: 4.3
@@ -72,3 +72,6 @@ Of course, we are keen to upgrade the plugin, introduce new features. So if you 
 
 = 1.0.0 =
 * Initial Realease.
+
+= 1.0.1 =
+* PHP Notices fixed.

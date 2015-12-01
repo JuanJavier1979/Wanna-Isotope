@@ -1,7 +1,7 @@
 <?php
 /**
  * @link              http://www.wannathemes.com
- * @since             1.0.0
+ * @since             1.0.1
  * @package           Wanna_Isotope
  *
  * @wordpress-plugin
