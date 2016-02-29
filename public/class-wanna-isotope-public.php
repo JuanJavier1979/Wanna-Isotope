@@ -96,7 +96,8 @@ class Wanna_Isotope_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/isotope.pkgd.min.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name . 'isotope', plugin_dir_url( __FILE__ ) . 'js/isotope.pkgd.min.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name . 'imagesloaded', plugin_dir_url( __FILE__ ) . 'js/imagesloaded.pkgd.min.js', array( 'jquery' ), $this->version, false );
 
 	}
 

@@ -75,3 +75,6 @@ Of course, we are keen to upgrade the plugin, introduce new features. So if you 
 
 = 1.0.1 =
 * PHP Notices fixed.
+
+= 1.0.2 =
+* Imagesloaded Added

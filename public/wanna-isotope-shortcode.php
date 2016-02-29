@@ -100,7 +100,7 @@ class Wanna_Isotope_Shortcode {
                 if( $tax != null ) {
                     $tax_terms = get_the_terms( $isotope_loop->ID, $tax );
                     $term_class = '';
-                    foreach( $tax_terms as $term ) {
+                    foreach( (array)$tax_terms as $term ) {
                         $term_class .= $term->slug . ' '; 
                     }
                 }
@@ -114,36 +114,38 @@ class Wanna_Isotope_Shortcode {
 
         wp_reset_query();
 
-        $isotope_output .= '
-	<script type="text/javascript">
-		jQuery(document).ready(function($) {
-			var $container = $(\'#' . $id . '\');
-	    	$container.isotope({
-	    	  itemSelector: ".isotope-item",
-	    	  layoutMode: "masonry"
-	    	});
+    $isotope_output .= '
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            var $container = $(\'#' . $id . '\');
+            $container.imagesLoaded( function(){
+                $container.isotope({
+                  itemSelector: ".isotope-item",
+                  layoutMode: "masonry"
+                });
+            });
 
-			var $optionSets = $(\'#filters-' . $id . '\'),
-			$optionLinks = $optionSets.find(\'a\');
-		 
-			$optionLinks.click(function(){
-				var $this = $(this);
-				// don\'t proceed if already active
-				if ( $this.hasClass(\'active\') ) {
-				  return false;
-				}
-				var $optionSet = $this.parents(\'#filters\');
-				$optionSets.find(\'.active\').removeClass(\'active\');
-				$this.addClass(\'active\');
-			 
-				//When an item is clicked, sort the items.
-				 var selector = $(this).attr(\'data-filter\');
-				$container.isotope({ filter: selector });
+            var $optionSets = $(\'#filters-' . $id . '\'),
+            $optionLinks = $optionSets.find(\'a\');
+         
+            $optionLinks.click(function(){
+                var $this = $(this);
+                // don\'t proceed if already active
+                if ( $this.hasClass(\'active\') ) {
+                  return false;
+                }
+                var $optionSet = $this.parents(\'#filters\');
+                $optionSets.find(\'.active\').removeClass(\'active\');
+                $this.addClass(\'active\');
+             
+                //When an item is clicked, sort the items.
+                 var selector = $(this).attr(\'data-filter\');
+                $container.isotope({ filter: selector });
 
-				return false;
-			});
-		});	
-	</script>';
+                return false;
+            });
+        }); 
+    </script>';
         
         return $isotope_output;
 
