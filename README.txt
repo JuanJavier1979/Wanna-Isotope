@@ -33,6 +33,13 @@ A plugin to easily build Isotope/Masonry layouts with any content (posts, pages 
 * default: *none*
 * Show a filter based on taxonomy parameter.
 
+**term** 
+
+* example: *term="category-slug"*
+* default: *none*
+* Show a filter based on a term parameter and only show items based on the *term*.
+* **REQUIRED:** use the *tax* parameter.
+
 **order_by**
  
 * example: *order_by="slug"*
@@ -67,6 +74,8 @@ You just need to use the shortcode [isotope] in your content, with some paramete
 
 Of course, we are keen to upgrade the plugin, introduce new features. So if you want to make suggestions or want to contribute you are welcome.
 
+== Screenshots ==
+1. Wanna Isotope Grid
 
 == Changelog ==
 
@@ -78,3 +87,6 @@ Of course, we are keen to upgrade the plugin, introduce new features. So if you 
 
 = 1.0.2 =
 * Imagesloaded Added
+
+= 1.0.3 =
+* Term parameter Added
