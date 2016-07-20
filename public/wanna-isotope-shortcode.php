@@ -149,17 +149,22 @@ class Wanna_Isotope_Shortcode {
                     }
                 }
 
-                ?>
+                if( file_exists( get_stylesheet_directory() . '/wanna-isotope/loop.php' ) ) {
+        
+                    // Load from child theme
+                    load_template( get_stylesheet_directory() . '/wanna-isotope/loop.php', false );
 
-                <li class="isotope-item <?php echo esc_attr( $term_class ); ?> all">
-                <?php if( has_post_thumbnail( $isotope_loop->ID ) ) : ?>
-                    <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-                        <?php the_post_thumbnail( $isotope_loop->ID, 'medium' ); ?>
-                    </a>
-                <?php endif; ?>
-                </li>
+                } elseif( file_exists( get_template_directory() . '/wanna-isotope/loop.php' ) ) {
+        
+                    // Load from parent theme
+                    load_template( get_template_directory() . '/wanna-isotope/loop.php', false );
 
-                <?php
+                } else {
+                    
+                    // Load from plugin
+                    include( plugin_dir_path(__FILE__) . 'templates/loop.php' );
+
+                }
 
             endwhile; ?>
             </ul> 
