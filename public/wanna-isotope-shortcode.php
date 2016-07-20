@@ -58,24 +58,19 @@ class Wanna_Isotope_Shortcode {
             'term'      => '',
         ), $atts) );
 
-        if( null != $id ) {
-            $id_output = 'id="' . $id . '"';
-        }
-
         if( null == $id ) {
-	        $id = 'wanna'.md5( date( 'jnYgis' ) );
-	        $id_output = 'id="' . $id . '"';
+	       $id = 'wanna' . md5( date( 'jnYgis' ) );
 	    }
 
-        if( $term == null ) {
-            $isotope_loop = new WP_Query ( array(
+        if( null == $term ) {
+            $query_args = array(
                 'post_type'       => $type,
                 'order'           => $order,
                 'orderby'         => $order_by,
                 'posts_per_page'  => $items
-            )  );
+            );
         } else {
-            $isotope_loop = new WP_Query ( array(
+            $query_args = array(
                 'post_type'       => $type,
                 'order'           => $order,
                 'orderby'         => $order_by,
@@ -87,99 +82,127 @@ class Wanna_Isotope_Shortcode {
                         'terms'    => $term,
                     ),
                 ),
-            )  );
+            );
         }
-
-        $isotope_output = '';
+        $isotope_loop = new WP_Query ( $query_args );
         
         if ( $isotope_loop->have_posts() ) :
+            ob_start(); ?>
 
-            if( $tax != null && $term == null ) {
-                $isotope_output .= '<ul id="filters-' . $id . '" class="filters">';
+            <ul id="filters-<?php echo esc_attr( $id ); ?>" class="filters">
+
+                <li>
+                    <a href="javascript:void(0)" title="filter all" data-filter=".all" class="active">
+                        <?php esc_html_e( 'All', 'wanna-isotope' ); ?>
+                    </a>
+                </li>
+
+            <?php
+            if( null != $tax && null == $term ) {
+
                 $terms = get_terms( $tax );
-                $count = count($terms);
-                $isotope_output .= '<li><a href="javascript:void(0)" title="filter all" data-filter=".all" class="active">All</a></li>';
+                $count = count($terms); 
+
                 if ( $count > 0 ){
                     foreach ( $terms as $term ) {
-                        $termname = strtolower($term->slug);
-                        $isotope_output .= '<li><a href="javascript:void(0)" title="filter ' . $term->name . '" data-filter=".' . $termname . '">' . $term->name . '</a></li>';
+                        $termname = strtolower($term->slug); 
+                        $title = $term->name; ?>
+                        <li>
+                            <a href="javascript:void(0)" title="filter <?php echo esc_attr( $title ); ?>" data-filter=".<?php echo esc_attr( $termname ); ?>">
+                                <?php echo esc_html( $title ); ?>
+                            </a>
+                        </li><?php
                     }
-                }
-                $isotope_output .= '</ul>';
-            } elseif ( $term != null ) {
-                $isotope_output .= '<ul id="filters-' . $id . '" class="filters">';
+                } 
+
+            } elseif ( null != $term ) {
+
                 $term_id = get_term_by( 'slug', $term, $tax );
                 $terms = get_term_children( $term_id->term_id, $tax );
                 $count = count($terms);
-                $isotope_output .= '<li><a href="javascript:void(0)" title="filter all" data-filter=".all" class="active">All</a></li>';
+
                 if ( $count > 0 ){
                     foreach ( $terms as $term ) {
                         $single_term = get_term( $term, $tax );
                         $termslug = strtolower($single_term->slug);
-                        $termname = strtolower($single_term->name);
-                        $isotope_output .= '<li><a href="javascript:void(0)" title="filter ' . $termslug . '" data-filter=".' . $termslug . '">' . $termname . '</a></li>';
+                        $termname = strtolower($single_term->name); ?>
+                        <li>
+                            <a href="javascript:void(0)" title="filter <?php echo esc_attr( $termslug ); ?>" data-filter=".<?php echo esc_attr( $termslug ); ?>">
+                                <?php echo esc_html( $termname ); ?>
+                            </a>
+                        </li><?php
                     }
                 }
-                $isotope_output .= '</ul>';
-            }
 
-            $isotope_output .= '<ul ' . $id_output . ' class="isotope-content isotope">';  
+            } ?>
+            </ul>
 
+            <ul id="<?php echo esc_attr( $id ); ?>" class="isotope-content isotope">
+            <?php
             while ( $isotope_loop->have_posts() ) : $isotope_loop->the_post();
-                if( has_post_thumbnail( $isotope_loop->ID ) ) {   
-                    $image = '<a href="' . get_the_permalink() . '" title="' . get_the_title() . '">' . get_the_post_thumbnail( $isotope_loop->ID, 'medium' ) . '</a>';
-                }
-                if( $tax != null ) {
+
+                if( null != $tax ) {
                     $tax_terms = get_the_terms( $isotope_loop->ID, $tax );
                     $term_class = '';
                     foreach( (array)$tax_terms as $term ) {
                         $term_class .= $term->slug . ' '; 
                     }
                 }
-                $isotope_output .= '<li class="isotope-item ' . $term_class . 'all">' . $image . '</li>';
-                $image = '';
-            endwhile;
 
-            $isotope_output .= '</ul>';
+                ?>
+
+                <li class="isotope-item <?php echo esc_attr( $term_class ); ?> all">
+                <?php if( has_post_thumbnail( $isotope_loop->ID ) ) : ?>
+                    <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+                        <?php the_post_thumbnail( $isotope_loop->ID, 'medium' ); ?>
+                    </a>
+                <?php endif; ?>
+                </li>
+
+                <?php
+
+            endwhile; ?>
+            </ul> 
+
+            <script type="text/javascript">
+                jQuery(document).ready(function($) {
+
+                    var $container = $('#<?php echo esc_js( $id ); ?>');
+                    $container.imagesLoaded( function(){
+                        $container.isotope({
+                          itemSelector: ".isotope-item",
+                          layoutMode: "masonry"
+                        });
+                    });
+
+                    var $optionSets = $('#filters-<?php echo esc_attr( $id ); ?>'),
+                    $optionLinks = $optionSets.find('a');
+                 
+                    $optionLinks.click(function(){
+                        var $this = $(this);
+                        // don\'t proceed if already active
+                        if ( $this.hasClass('active') ) {
+                          return false;
+                        }
+                        var $optionSet = $this.parents('#filters-<?php echo esc_js( $id ); ?>');
+                        $optionSets.find('.active').removeClass('active');
+                        $this.addClass('active');
+                     
+                        //When an item is clicked, sort the items.
+                        var selector = $(this).attr('data-filter');
+                        $container.isotope({ filter: selector });
+
+                        return false;
+                    });
+                });
+            </script>
+
+            <?php
+            return ob_get_clean();
 
         endif;
 
         wp_reset_query();
-
-        $isotope_output .= '
-        <script type="text/javascript">
-            jQuery(document).ready(function($) {
-                var $container = $(\'#' . $id . '\');
-                $container.imagesLoaded( function(){
-                    $container.isotope({
-                      itemSelector: ".isotope-item",
-                      layoutMode: "masonry"
-                    });
-                });
-
-                var $optionSets = $(\'#filters-' . $id . '\'),
-                $optionLinks = $optionSets.find(\'a\');
-             
-                $optionLinks.click(function(){
-                    var $this = $(this);
-                    // don\'t proceed if already active
-                    if ( $this.hasClass(\'active\') ) {
-                      return false;
-                    }
-                    var $optionSet = $this.parents(\'#filters-' . $id . '\');
-                    $optionSets.find(\'.active\').removeClass(\'active\');
-                    $this.addClass(\'active\');
-                 
-                    //When an item is clicked, sort the items.
-                     var selector = $(this).attr(\'data-filter\');
-                    $container.isotope({ filter: selector });
-
-                    return false;
-                });
-            }); 
-        </script>';
-
-        return $isotope_output;
 
 	}
 
