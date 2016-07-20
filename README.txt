@@ -90,3 +90,8 @@ Of course, we are keen to upgrade the plugin, introduce new features. So if you 
 
 = 1.0.3 =
 * Term parameter Added
+
+= 1.0.4 =
+* Re-structured some code.
+* Sanitized outputs added.
+* Templating system added.
