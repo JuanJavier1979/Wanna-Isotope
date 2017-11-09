@@ -152,12 +152,12 @@ class Wanna_Isotope_Shortcode {
                 if( file_exists( get_stylesheet_directory() . '/wanna-isotope/loop.php' ) ) {
         
                     // Load from child theme
-                    load_template( get_stylesheet_directory() . '/wanna-isotope/loop.php', false );
+                    include( get_stylesheet_directory() . '/wanna-isotope/loop.php' );
 
                 } elseif( file_exists( get_template_directory() . '/wanna-isotope/loop.php' ) ) {
         
                     // Load from parent theme
-                    load_template( get_template_directory() . '/wanna-isotope/loop.php', false );
+                    include( get_template_directory() . '/wanna-isotope/loop.php' );
 
                 } else {
                     
