@@ -8,8 +8,8 @@
  * Plugin Name:       Wanna Isotope
  * Plugin URI:        http://wordpress.org/extend/plugins/wanna-isotope/
  * Description:       A plugin to easily build Isotope Layouts with any content.
- * Version:           1.0.4
- * Author:            jjmrestituto, wannathemes
+ * Version:           1.0.5
+ * Author:            jjmrestituto, wannathemes , ankgne
  * Author URI:        http://www.wannathemes.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
