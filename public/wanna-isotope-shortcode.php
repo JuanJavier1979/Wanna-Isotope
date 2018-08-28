@@ -118,7 +118,7 @@ class Wanna_Isotope_Shortcode {
      * @since 1.0.5
      * @var array
      */
-    private $taxes = array();
+    private $taxonomies = array();
 
     /**
      * array of post
@@ -149,16 +149,16 @@ class Wanna_Isotope_Shortcode {
 	 * @since    1.0.0
 	 *
      * @since    1.0.5
-     * Moved shortcode arguement extraction logic in a function
+     * Moved shortcode argument extraction logic in a function
      * Moved filter logic in a function
      *
 	 * @param    array $atts Shortcode attributes
 	 */
 	public function shortcode_isotope( $atts ) {
 
-        $query_args=$this->extract_isotope($atts);
+        $query_args = $this->extract_isotope( $atts );
 
-        $this->isotope_loop = new WP_Query ( $query_args );
+        $this->isotope_loop = new WP_Query( $query_args );
 
         if ( $this->isotope_loop->have_posts() ) :
             ob_start(); ?>
@@ -182,22 +182,22 @@ class Wanna_Isotope_Shortcode {
             <?php
             while ( $this->isotope_loop->have_posts() ) : $this->isotope_loop->the_post();
 
-                if( null != $this->taxes ) {
+                if ( null != $this->taxonomies ) {
                     $term_class = '';
-                    foreach ($this->taxes as $tax){//handling of multiple taxonomies
+                    foreach ( $this->taxonomies as $tax ) {//handling of multiple taxonomies
                         $tax_terms = get_the_terms( $this->isotope_loop->post->ID, $tax );
-                        foreach( (array)$tax_terms as $term ) {
+                        foreach ( (array) $tax_terms as $term ) {
                             $term_class .= $term->slug . ' ';
                         }
                     }
                 }
 
-                if( file_exists( get_stylesheet_directory() . '/wanna-isotope/loop.php' ) ) {
+                if ( file_exists( get_stylesheet_directory() . '/wanna-isotope/loop.php' ) ) {
         
                     // Load from child theme
                     load_template( get_stylesheet_directory() . '/wanna-isotope/loop.php', false );
 
-                } elseif( file_exists( get_template_directory() . '/wanna-isotope/loop.php' ) ) {
+                } elseif ( file_exists( get_template_directory() . '/wanna-isotope/loop.php' ) ) {
         
                     // Load from parent theme
                     load_template( get_template_directory() . '/wanna-isotope/loop.php', false );
@@ -213,8 +213,8 @@ class Wanna_Isotope_Shortcode {
             </ul>
 
             <?php
-            if('yes'==$this->pagination){
-                $this->pagination_isotope($this->isotope_loop->max_num_pages);
+            if ( 'yes' == $this->pagination ) {
+                $this->pagination_isotope( $this->isotope_loop->max_num_pages );
             }
             ?>
 
@@ -273,68 +273,68 @@ class Wanna_Isotope_Shortcode {
      * @param    array $atts Shortcode attributes
      * @return   array $query_args query arguments to be used in WP Query
      */
-    private function extract_isotope($atts){
+    private function extract_isotope( $atts ) {
 
         extract( shortcode_atts( array(
-            'id'        => '',
-            'class'     => '',
-            'type'      => 'post',
-            'items'     => 4,
-            'order'     => '',
-            'order_by'  => 'menu_order',
-            'tax'       => '',
-            'term'      => '',
+            'id'         => '',
+            'class'      => '',
+            'type'       => 'post',
+            'items'      => 4,
+            'order'      => '',
+            'order_by'   => 'menu_order',
+            'tax'        => '',
+            'term'       => '',
             'pagination' => 'no',
-        ), $atts) );
+        ), $atts ) );
 
-        $this->id=$id;
-        $this->class=$class;
-        $this->type=$type;
-        $this->items=$items;
-        $this->order=$order;
-        $this->order_by=$order_by;
-        $this->tax=$tax;
-        $this->term=$term;
-        $this->pagination=strtolower($pagination);
-        $this->taxes=explode(',',$this->tax);///this allows to have multiple comma separated taxonomies in shortcode
+        $this->id = $id;
+        $this->class = $class;
+        $this->type = $type;
+        $this->items = $items;
+        $this->order = $order;
+        $this->order_by = $order_by;
+        $this->tax = $tax;
+        $this->term = $term;
+        $this->pagination = strtolower($pagination);
+        $this->taxonomies = explode( ',',$this->tax );///this allows to have multiple comma separated taxonomies in shortcode
 
-        if( null == $this->id ) {
+        if ( null == $this->id ) {
             $this->id = 'wanna' . md5( date( 'jnYgis' ) );
         }
 
-        if ('yes'==$this->pagination){
+        if ( 'yes' == $this->pagination ) {
             $this->paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1; //get current page number
-        }else{
-            $this->paged=null;
+        } else {
+            $this->paged = null;
         }
 
-        if( null == $this->term ) {
+        if ( null == $this->term ) {
             $query_args = array(
                 'post_type'       => $this->type,
                 'order'           => $this->order,
                 'orderby'         => $this->order_by,
                 'posts_per_page'  => $this->items,
-                'paged' => $this->paged,
-                'meta_query' => array(//get posts that have featured images in it
+                'paged'           => $this->paged,
+                'meta_query'      => array(//get posts that have featured images in it
                     array(
-                        'key' => '_thumbnail_id',
+                        'key'     => '_thumbnail_id',
                         'compare' => 'EXISTS'
                     ),
                 )
             );
         } else {
-            $tax_query_array=array();
-            $tax_query_array['relation']='OR';
+            $tax_query_array = array();
+            $tax_query_array['relation'] = 'OR';
 
-            $temp_tax_query_array=array();
+            $temp_tax_query_array = array();
 
-            $this->terms=explode(',',$this->term);///this allows to have multiple comma separated terms in shortcode
+            $this->terms = explode( ',', $this->term );///this allows to have multiple comma separated terms in shortcode
 
-            foreach ($this->taxes as $tax){
-                $temp_tax_query_array['taxonomy']=$tax;
-                $temp_tax_query_array['field']='slug';
-                $temp_tax_query_array['terms']=$this->terms;
-                $tax_query_array[]=$temp_tax_query_array;
+            foreach ( $this->taxonomies as $tax ) {
+                $temp_tax_query_array['taxonomy'] = $tax;
+                $temp_tax_query_array['field'] = 'slug';
+                $temp_tax_query_array['terms'] = $this->terms;
+                $tax_query_array[] = $temp_tax_query_array;
             }
 
             $query_args = array(
@@ -342,11 +342,11 @@ class Wanna_Isotope_Shortcode {
                 'order'           => $this->order,
                 'orderby'         => $this->order_by,
                 'posts_per_page'  => $this->items,
-                'paged' => $this->paged,
-                'tax_query' => $tax_query_array,
-                'meta_query' => array( //get posts that have featured images attached with them only
+                'paged'           => $this->paged,
+                'tax_query'       => $tax_query_array,
+                'meta_query'      => array( //get posts that have featured images attached with them only
                     array(
-                        'key' => '_thumbnail_id',
+                        'key'     => '_thumbnail_id',
                         'compare' => 'EXISTS'
                     ),
                 ),
@@ -366,38 +366,59 @@ class Wanna_Isotope_Shortcode {
      * @param    int $pages amount of pages returned by WP_Query
      * @param    int $range range of pages on pagination strip
      */
-    private function pagination_isotope($pages = '', $range = 4){
-        $showitems = ($range * 2)+1;
+    private function pagination_isotope( $pages = '', $range = 4 ) {
+        $showitems = ( $range * 2 ) + 1;
+
 
         global $paged;
-        if(empty($paged)) $paged = 1;
+        if ( empty( $paged ) ) {
+            $paged = 1;
+        }
 
-        if($pages == '')
-        {
+        if ( $pages == '' ) {
             global $wp_query;
             $pages = $wp_query->max_num_pages;
-            if(!$pages)
-            {
+            if ( !$pages ) {
                 $pages = 1;
             }
         }
 
-        if(1 != $pages)
-        {
-            echo "<div class=\"pagination prefix\"><span>Page ".$paged." of ".$pages."</span>";
-            if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<a href='".get_pagenum_link(1)."'>&laquo; First</a>";
-            if($paged > 1 && $showitems < $pages) echo "<a href='".get_pagenum_link($paged - 1)."'>&lsaquo; Previous</a>";
+        if ( 1 != $pages ) {
 
-            for ($i=1; $i <= $pages; $i++)
-            {
-                if (1 != $pages &&( !($i >= $paged+$range+1 || $i <= $paged-$range-1) || $pages <= $showitems ))
-                {
-                    echo ($paged == $i)? "<span class=\"current\">".$i."</span>":"<a href='".get_pagenum_link($i)."' class=\"inactive\">".$i."</a>";
+            echo "<div class=\"pagination prefix\"><span>";
+            printf( esc_html__( 'Page %d of %d.', 'wanna-isotope' ), $paged, $pages );
+            echo "</span>";
+
+            if ( $paged > 2 && $paged > $range + 1 && $showitems < $pages ) {
+                echo "<a href='".get_pagenum_link( 1 )."'>&laquo; ";
+                esc_html_e( 'First', 'wanna-isotope' );
+                echo "</a>";
+            }
+
+            if ( $paged > 1 && $showitems < $pages ) {
+                echo "<a href='" . get_pagenum_link( $paged - 1 ) . "'>&lsaquo; ";
+                esc_html_e( 'Previous', 'wanna-isotope' );
+                echo"</a>";
+            }
+
+            for ( $i=1; $i <= $pages; $i++ ) {
+                if ( 1 != $pages && ( !( $i >= $paged + $range + 1 || $i <= $paged - $range - 1 ) || $pages <= $showitems ) ) {
+                    echo ( $paged == $i )? "<span class=\"current\">".$i."</span>":"<a href='".get_pagenum_link( $i )."' class=\"inactive\">".$i."</a>";
                 }
             }
 
-            if ($paged < $pages && $showitems < $pages) echo "<a href=\"".get_pagenum_link($paged + 1)."\">Next &rsaquo;</a>";
-            if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<a href='".get_pagenum_link($pages)."'>Last &raquo;</a>";
+            if ( $paged < $pages && $showitems < $pages ) {
+                echo "<a href=\"". get_pagenum_link( $paged + 1 ) ."\">";
+                esc_html_e( 'Next', 'wanna-isotope' );
+                echo" &rsaquo;</a>";
+            }
+
+            if ( $paged < $pages - 1 &&  $paged + $range - 1 < $pages && $showitems < $pages ) {
+                echo "<a href='".get_pagenum_link( $pages )."'>";
+                esc_html_e( 'Last', 'wanna-isotope' );
+                echo " &raquo;</a>";
+            }
+
             echo "</div>\n";
         }
     }
@@ -413,35 +434,35 @@ class Wanna_Isotope_Shortcode {
      *
      *
      */
-    private function display_filter_isotope(){
+    private function display_filter_isotope() {
 
-        $term_array_2=array();
+        $term_array_2 = array();
 
         while ( $this->isotope_loop->have_posts() ) : $this->isotope_loop->the_post();
-            if( null != $this->taxes ) {
-                foreach ($this->taxes as $tax){//handling of multiple taxonomies
+            if ( null != $this->taxonomies ) {
+                foreach ( $this->taxonomies as $tax ) {//handling of multiple taxonomies
                     $tax_terms = get_the_terms( $this->isotope_loop->post->ID, $tax ); //get all terms associated with post
 
-                    if ($tax_terms != null && $this->terms == null){// when there are no terms in shortcodes then show all terms associated with posts
-                        foreach( (array)$tax_terms as $term ) {
-                            $termslug = strtolower($term->slug);
-                            $termname = strtolower($term->name);
+                    if ( $tax_terms != null && $this->terms == null ) {// when there are no terms in shortcodes then show all terms associated with posts
+                        foreach ( (array)$tax_terms as $term ) {
+                            $termslug = strtolower( $term->slug );
+                            $termname = strtolower( $term->name );
                             $term_array_2[$termslug] = $termname;
                         }
-                    }elseif ($tax_terms != null && $this->terms != null ){// when there are terms in shortcodes then show terms mentioned in shortcode AND associated with posts
-                        foreach( (array)$tax_terms as $term ) {
-                            $termslug = strtolower($term->slug);
-                            $termname = strtolower($term->name);
+                    } elseif ( $tax_terms != null && $this->terms != null ) {// when there are terms in shortcodes then show terms mentioned in shortcode AND associated with posts
+                        foreach ( (array)$tax_terms as $term ) {
+                            $termslug = strtolower( $term->slug );
+                            $termname = strtolower( $term->name );
                             $term_children = get_term_children( $term->term_id, $tax );
-                            if (in_array($termslug,$this->terms)){ //logic to display terms mentioned in short code
+                            if ( in_array( $termslug, $this->terms ) ) { //logic to display terms mentioned in short code
                                 $term_array_2[$termslug] = $termname;
                             }
-                            $count = count($term_children);
-                            if ( $count > 0 ){ //logic to display child terms if parent term is mentioned in the short code
+                            $count = count( $term_children );
+                            if ( $count > 0 ) { //logic to display child terms if parent term is mentioned in the short code
                                 foreach ( $term_children as $term_child ) {
                                     $single_term = get_term( $term_child, $tax );
-                                    $termslug = strtolower($single_term->slug);
-                                    $termname = strtolower($single_term->name);
+                                    $termslug = strtolower( $single_term->slug );
+                                    $termname = strtolower( $single_term->name );
                                     $term_array_2[$termslug] = $termname;
                                 }
                             }
@@ -451,12 +472,12 @@ class Wanna_Isotope_Shortcode {
             }
         endwhile;
 
-        if (count($term_array_2) > 1){ //if there is one term then display "All" rather than displaying "All" and name of term itself
-            foreach($term_array_2 as $termslug => $termname) {?>
+        if ( count( $term_array_2 ) > 1 ) { //if there is one term then display "All" rather than displaying "All" and name of term itself
+            foreach ( $term_array_2 as $termslug => $termname ) {?>
                 <li>
-                <a href="javascript:void(0)" title="filter <?php echo esc_attr($termname); ?>"
-                   data-filter=".<?php echo esc_attr($termslug); ?>">
-                    <?php echo esc_html($termname); ?>
+                <a href="javascript:void(0)" title="filter <?php echo esc_attr( $termname ); ?>"
+                   data-filter=".<?php echo esc_attr( $termslug ); ?>">
+                    <?php echo esc_html( $termname ); ?>
                 </a>
                 </li><?php
             }
