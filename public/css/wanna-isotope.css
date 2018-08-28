@@ -76,3 +76,45 @@ ul.filters a.active {
   border-color: #000;
   color: #000;
 }
+
+/* Pagination */
+.pagination {
+  clear:both;
+  position:relative;
+  font-size:11px; /* Pagination text size */
+  line-height:13px;
+  float:right; /* Pagination float direction */
+}
+
+.pagination span, .pagination a {
+  display:block;
+  float:left;
+  margin: 2px 2px 2px 0;
+  padding:6px 9px 5px 9px;
+  text-decoration:none;
+  width:auto;
+  border: 1px solid #cacaca;
+  background: #fff;
+  color: #cacaca;
+  -webkit-transition: background .15s ease-in-out;
+  -moz-transition: background .15s ease-in-out;
+  -ms-transition: background .15s ease-in-out;
+  -o-transition: background .15s ease-in-out;
+  transition: background .15s ease-in-out;
+}
+
+.prefix span{
+  color: #000;
+}
+
+.pagination a:hover{
+  color:#000;
+  border-color: #000;
+}
+
+.pagination .current{
+  padding:6px 9px 5px 9px;
+  background: #fff; /* Current page background */
+  color:#000;
+  border-color: #000;
+}

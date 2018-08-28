@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: jjmrestituto, wannathemes
+Contributors: jjmrestituto, wannathemes , ankgne
 Donate link: https://www.paypal.me/wannathemes/5
 Tags: isotope, masonry, filter, grid, layout, shortcode
 Requires at least: 3.0.1
@@ -95,3 +95,15 @@ Of course, we are keen to upgrade the plugin, introduce new features. So if you 
 * Re-structured some code.
 * Sanitized outputs added.
 * Templating system added.
+
+= 1.0.5 =
+*Added the functionality of selecting multiple comma separated terms
+*Added the functionality of multiple comma separated tax
+*Added the functionality of pagination and a new argument named 'pagination'. By default pagination is set to false. Pagination can be enabled by passing argument pagination=yes
+*Enhanced the logic of querying post . Existing post query does not check if there are any featured images attached to it. Enhanced the logic to return posts that have featured images attached to them. Enhanced logic fixes the issue of returning posts that do not have featured images and we display count of posts as selected by user in short code
+
+Refactoring:
+*Created function for displaying filters in wanna-isotope-shortcode.php
+*Created function for extracting argument of shortcode in wanna-isotope-shortcode.php
+*Added private variables in wanna-isotope-shortcode.php
+
